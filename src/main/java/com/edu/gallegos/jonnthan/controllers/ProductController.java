@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", methods = { RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,
-        RequestMethod.DELETE })
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -27,7 +26,14 @@ public class ProductController {
         return repository.findAll();
     }
 
-    
+    @PutMapping("/product/{id}")
+    public ProductDTO update(@PathVariable String id, @Validated @RequestBody ProductDTO p) {
+        ProductDTO pro = repository.findById(id).orElseThrow(RuntimeException::new);
+        pro.setName(p.getName());
+        pro.setPrice(p.getPrice());
+        pro.setExpiry_date(p.getExpiry_date());
+        return repository.save(pro);
+    }
 
     @DeleteMapping("/product/{id}")
     public void delete(@PathVariable String id) {
