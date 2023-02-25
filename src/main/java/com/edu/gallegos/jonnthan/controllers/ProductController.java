@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/products")
+@CrossOrigin(origins = {"*"})
+@RequestMapping("/api")
 public class ProductController {
 
     @Autowired
     private IProductDAO repository;
 
     @PostMapping("/product")
-    public ProductDTO create(@Validated @RequestBody ProductDTO p) {
+    public ProductDTO create(@RequestBody ProductDTO p) {
         return repository.insert(p);
     }
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public List<ProductDTO> readAll() {
         return repository.findAll();
     }
